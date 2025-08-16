@@ -1,0 +1,221 @@
+html {
+        scrollbar-gutter: stable;
+    }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #fff;
+  color: #333;
+  line-height: 1.6;
+  padding: 0;
+}
+
+/* CONTAINER ELEMENTS */
+main, footer {
+  width: 90%;
+  /* max-width: 1200px; */
+  margin: auto;
+}
+
+main {
+  margin-bottom: 100px;
+}
+
+footer {
+  font-family: Anton;
+  background-color: #F2F2F2;
+  width: 100%;
+  height: 100px; /* Set the height of your footer */
+  margin-top: -100px; /* Negative margin equal to footer height */
+  clear: both; /* Important if using floats */
+  text-align: center;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  /* padding: 20px 0px; */
+  /* border: 1px solid #ccc; */
+}
+
+footer p {
+  margin: auto;
+  height: auto;
+  /* border: 1px solid #ccc; */
+}
+/* LOGO */
+.logo {
+  width: 100%;
+  max-width: 200px;
+  /* height: ; */
+  padding: 10px;
+  /* justify-content: left; */
+  align-items: left;
+  /* border: 1px solid #ccc; */
+}
+
+/* Branding */
+.branding {
+  display: flex;
+  align-items: center;
+  /* border: 1px solid #ccc; */
+  /* width: 90%; */
+  height: 80px;
+  margin: 15px;
+  justify-content: space-between;
+}
+
+.main-nav {
+  /* border: 1px solid #ccc; */
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0px 20px;  
+  margin: 0;
+  margin: auto;
+  /* width: ; */
+  justify-content: center;
+}
+
+.main-nav li{
+  padding: 0px 30px;  
+  font-family: Raleway, sans-serif;
+  font-weight: bold;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+.phone_number {
+  font-family: Raleway, serif;
+  color: blue;
+  /* font-size: 1.2rem; */
+  margin-right: 20px;
+}
+
+.Bible_Verse {
+  font-size: 1rem;
+  font-family: Raleway, serif;
+  background-color: #F2F2F2;
+  color: #01743D;
+  font-weight: bold;
+  width: 100%;
+  padding: 10px 0px;
+  margin: 0px;
+  /* position: absolute; */
+  /* left: 0; */
+  /* text-transform: capitalize; */
+}
+
+.Bible_Verse p {
+  padding: 0px;
+  text-align: center;
+  margin: 0;
+  word-spacing: 5px;;
+}
+
+.Bible_Verse .reference {
+  text-align: right;
+  padding: 0px 30% 0px 0px;
+}
+
+.services ul li{
+  font-family: Raleway, serif;
+  list-style: none;
+}
+
+.gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 10px;
+
+}
+.gallery img {
+  width: 100%;
+  max-width: 350px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.gallery::after {
+  content: "";
+  width: 350px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    display: none;
+    background-color: #6392c5;
+    padding: 1rem 0;
+    width: 100%;
+  }
+
+  .main-nav.active .nav-list {
+    display: flex;
+  }
+}
+
+/* MEDIA QUERY FOR SMALL SCREENS */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .main-nav {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    padding-top: 1rem;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .branding {
+    display: block;
+  }
+  
+  .main-nav a {
+    font-size: 1.1rem;
+  }
+  
+  .logo {
+    max-width: 150px;
+  }
+  
+  main {
+    padding: 1rem;
+  }
+  .menu-toggle {
+    display: block;
+  }
+  
+  ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0;
+  }
+  
+  .main-nav.active ul {
+    display: flex;
+  }
+}
