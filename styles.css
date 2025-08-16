@@ -99,6 +99,7 @@ a {
 .phone_number {
   font-family: Raleway, serif;
   color: blue;
+  cursor: pointer;
   /* font-size: 1.2rem; */
 }
 
@@ -149,7 +150,7 @@ a {
   padding: 20px 10px;
 
 }
-.gallery img {
+.gallery img,.video {
   width: 100%;
   max-width: 350px;
   height: 300px;
@@ -165,6 +166,7 @@ a {
 /* Responsive styles */
 /* MEDIA QUERY FOR SMALL SCREENS */
 @media (max-width: 768px) {
+  
   header {
     width: 100%;
     position: static;
@@ -181,7 +183,7 @@ a {
     width: auto;
     padding: 10px 0;
   }
-   
+  
   .logo {
     max-width: 150px;
     margin-bottom: 10px;
@@ -261,5 +263,4 @@ a {
     margin-top: 30px;
     /* height: auto; */
   }
-
 }
