@@ -148,7 +148,7 @@ a {
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px 10px;
-
+  
 }
 .gallery img,.video {
   width: 100%;
@@ -161,6 +161,12 @@ a {
 .gallery::after {
   content: "";
   width: 350px;
+}
+
+.space {
+  padding-right: 5px;
+  /* border: 1px solid #ccc; */
+
 }
 
 /* Responsive styles */
