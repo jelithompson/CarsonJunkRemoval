@@ -143,10 +143,12 @@
 
                 if (allEntries.length > 1) {
                     entry.remove();
+                    updateQuote();
                 } else {
                     const resetEntry = entryTemplate.cloneNode(true);
                     entry.replaceWith(resetEntry);
                     updateForm(resetEntry);
+                    updateQuote();
                 }
             }
         });
@@ -365,5 +367,6 @@
         </p>
     </footer>
 </body>
+
 
 </html>
