@@ -1,6 +1,7 @@
 html {
-        scrollbar-gutter: stable;
-    }
+  scrollbar-gutter: stable;
+  overflow-x: hidden;
+}
 
 body {
   font-family: Arial, sans-serif;
@@ -16,21 +17,20 @@ main {
   margin: auto;
   width: 60%;
   margin-bottom: 100px;
+  box-sizing: border-box;
 }
 
 footer {
   font-family: Anton;
   background-color: #F2F2F2;
   width: 100%;
-  height: 50px; /* Set the height of your footer */
-  margin-top: -100px; /* Negative margin equal to footer height */
-  clear: both; /* Important if using floats */
+  min-height: 50px;
   text-align: center;
   display: flex;
-  position: fixed;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   bottom: 0;
-  /* padding: 20px 0px; */
-  /* border: 1px solid #ccc; */
 }
 
 footer p {
@@ -38,6 +38,7 @@ footer p {
   height: auto;
   /* border: 1px solid #ccc; */
 }
+
 /* LOGO */
 .logo {
   width: 100%;
@@ -74,7 +75,7 @@ footer p {
   justify-content: space-evenly;
 }
 
-.main-nav li{
+.main-nav li {
   /* padding: 0px 30px;   */
   /* display: flex; */
   /* width: auto; */
@@ -121,7 +122,8 @@ a {
   padding: 0px;
   text-align: center;
   margin: 0;
-  word-spacing: 5px;;
+  word-spacing: 5px;
+  ;
 }
 
 .Bible_Verse .reference {
@@ -133,7 +135,7 @@ a {
   font-family: Raleway, serif;
 }
 
-.services ul li{
+.services ul li {
   font-family: Raleway, serif;
   list-style: none;
 }
@@ -148,9 +150,11 @@ a {
   max-width: 1400px;
   margin: 0 auto;
   padding: 20px 10px;
-  
+
 }
-.gallery img,.video {
+
+.gallery img,
+.video {
   width: 100%;
   max-width: 350px;
   height: 300px;
@@ -172,7 +176,6 @@ a {
 /* Responsive styles */
 /* MEDIA QUERY FOR SMALL SCREENS */
 @media (max-width: 768px) {
-  
   header {
     width: 100%;
     position: static;
@@ -186,10 +189,10 @@ a {
     align-items: center;
     height: auto;
     margin: 0;
-    width: auto;
+    width: 100%;
     padding: 10px 0;
+    box-sizing: border-box;
   }
-  
   .logo {
     max-width: 150px;
     margin-bottom: 10px;
@@ -229,35 +232,41 @@ a {
     flex-direction: column;
     text-align: center;
     gap: 0.5rem;
-    width: auto;
-    margin: 5px;
+    width: 100%;
+    margin: 5px 0;
     padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
   .main-nav li {
-    text-align: middle;
+    text-align: center;
     border: none;
+    width: 100%;
+    box-sizing: border-box;
   }
   .divider {
     display: none;
   }
   /* Show nav when hamburger is checked */
-  .menu-toggle input:checked ~ nav .main-nav {
+  .menu-toggle input:checked~nav .main-nav {
     display: flex;
   }
   /* Animate hamburger to X when checked */
-  .menu-toggle input:checked ~ .menu-toggle span:nth-child(1) {
+  .menu-toggle input:checked~.menu-toggle span:nth-child(1) {
     transform: rotate(45deg) translate(7px, 7px);
   }
-  .menu-toggle input:checked ~ .menu-toggle span:nth-child(2) {
+  .menu-toggle input:checked~.menu-toggle span:nth-child(2) {
     opacity: 0;
   }
-  .menu-toggle input:checked ~ .menu-toggle span:nth-child(3) {
+  .menu-toggle input:checked~.menu-toggle span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -7px);
   }
-  main {
+  main, .container {
     padding: 1rem;
     margin-top: 0;
-    width: 90%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
   }
   /* Prevent overlap */
   .Bible_Verse {
@@ -265,8 +274,131 @@ a {
   }
   /* Footer stays at bottom */
   footer {
-    /* position: static; */
     margin-top: 30px;
-    /* height: auto; */
+    min-height: 50px;
+    position: relative;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    box-sizing: border-box;
   }
+  .quote-builder {
+    padding: 0.5rem;
+    font-size: 0.95rem;
+  }
+  .quote-builder form,
+  .quote-builder #quoteSummary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .quote-builder button {
+    width: 100%;
+  }
+  #customer-info {
+    padding: 0.5rem;
+  }
+  #customer-info input {
+    font-size: 0.9rem;
+  }
+  .remove-entry {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+.container {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  /* border: 1px solid black; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+label {
+  font-weight: bold;
+  margin-top: 1rem;
+  display: block;
+}
+
+select,
+input[type="text"] {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+button,
+input[type="submit"] {
+  background-color: #01743D;
+  color: white;
+  border: none;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background-color: #219150;
+}
+
+#quote-summary {
+  margin-top: 2rem;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #01743D;
+}
+
+#quote-summary ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#quote-summary li {
+  margin-bottom: 0.5rem;
+}
+
+#customer-info {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+#customer-info label {
+  font-weight: bold;
+  margin-top: 1rem;
+  display: block;
+}
+
+#customer-info input {
+  width: 90%;
+  padding: 0.6rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+.error-message {
+    color: red;
+    font-size: 0.85em;
+    margin-left: 5px;
+    display: block;
+}
+
+input.invalid {
+    border: 2px solid red;
+}
+select{
+  font-family: Raleway, serif;
 }

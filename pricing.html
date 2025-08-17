@@ -5,9 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Carson Junk Removal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton%7CBaskervville%7CRaleway&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton%7CBaskervville%7CRaleway&display=swap" />
 </head>
 
 <body>
@@ -16,6 +16,12 @@
             <a href="index.html">
                 <img src="assets/CJR_Logo.png" alt="Carson Junk Removal" class="logo" />
             </a>
+            <!-- <label class="menu-toggle">
+                <input type="checkbox" />
+                <span></span>
+                <span></span>
+                <span></span>
+            </label> -->
             <nav>
                 <ul class="main-nav">
                     <li><i class="fa fa-home space"></i><a href="index.html">Home</a></li>
@@ -28,24 +34,323 @@
                 </ul>
             </nav>
             <div class="contact-info">
-                <i class = "fa fa-phone contact_info"></i> Call for a quote <span class = "phone_number">(706) 410-6853</span>
+                <i class="fa fa-phone contact_info"></i> Call for a quote <span class="phone_number">(706) 410-6853</span>
             </div>
         </div>
     </header>
-    
+
     <div class="Bible_Verse">
         <p>“Use whatever gift you have received to serve others…” </p>
-        <p class = "reference">- 1 Peter 4:10</p>
+        <p class="reference">- 1 Peter 4:10</p>
     </div>
 
-    <main>
-
-        <section class="about">
-            <h2>Pricing</h2>
-            <p>Under Construction</p>
+    <main class="container">
+        <h2><i class="fas fa-trash-alt"></i> Service Quote</h2>
+        <div id="quote-builder">
+            <div class="quote-entry">
+                <div class="entry-group">
+                    <label>Service Type:</label>
+                    <select class="trash-type">
+                        <option value="">-- Choose --</option>
+                        <option value="yard">Yard Waste</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="debris">Construction Debris</option>
+                        <option value="appliance">Appliances</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <label>Quantity:</label>
+                    <select class="quantity">
+                        <option value="">-- Select Service Type First --</option>
+                    </select>
+                    <input type="text" class="custom-input" placeholder="Describe your item..." style="display:none;">
+                    <button type="button" class="remove-entry"><i class="fas fa-times-circle"></i> Remove</button>
+                </div>
+                <button class="submit-inquiry" style="display:none;">Submit Inquiry</button>
+            </div>
+        </div>
+        <div class="quote-actions">
+            <button id="add-another"><i class="fas fa-plus-circle"></i> Add Another Service Type</button>
+            <button id="update-quote"><i class="fas fa-sync-alt"></i> Update Quote</button>
+            <button id="clear-all" type="button"><i class="fas fa-eraser"></i> Clear All</button>
+        </div>
+        <div id="quote-summary">
+            <h3><i class="fas fa-file-invoice-dollar"></i> Quote Summary</h3>
+            <ul id="quote-list"></ul>
+            <p id="total-price">Total: $0.00</p>
+        </div>
+        <section id="customer-info">
+            <h3><i class="fas fa-user"></i> Customer Information</h3>
+            <label for="first-name">First Name:</label>
+            <input type="text" id="first-name" name="first-name" required />
+            <span class="error-message" id="first-name-error"></span>
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" name="last-name" required />
+            <span class="error-message" id="last-name-error"></span>
+            <label for="address">Service Address:</label>
+            <input type="text" id="address" name="address" required />
+            <span class="error-message" id="address-error"></span>
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required />
+            <span class="error-message" id="phone-error"></span>
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required />
+            <span class="error-message" id="email-error"></span>
         </section>
-
+        <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_xclick">
+            <input type="hidden" name="business" value="your-paypal-email@example.com">
+            <input type="hidden" name="item_name" id="item_name" value="Trash Removal Quote">
+            <input type="hidden" name="amount" id="amount" value="0.00">
+            <input type="hidden" name="currency_code" value="USD">
+            <input type="submit" value="Pay Now with PayPal">
+        </form>
     </main>
+    <script>
+        let entryTemplate;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const original = document.querySelector('.quote-entry');
+            entryTemplate = original.cloneNode(true);
+            entryTemplate.querySelector('.quantity').innerHTML = '<option>-- Select Trash Type First --</option>';
+            entryTemplate.querySelector('.custom-input').style.display = 'none';
+            entryTemplate.querySelector('.submit-inquiry').style.display = 'none';
+            updateForm(entryTemplate);
+        });
+        const pricing = {
+            yard: { label: 'Cubic Yards', options: [1, 2, 3, 4, 5], pricePerUnit: 30 },
+            furniture: { label: 'Items', options: [1, 2, 3, 4, 5], pricePerUnit: 50 },
+            debris: { label: 'Weight Range (lbs)', options: ['0-100', '101-250', '251-500'], prices: [50, 80, 1100] },
+            appliance: { label: 'Units', options: [1, 2, 3], pricePerUnit: 50 }
+        };
+
+        document.getElementById('clear-all').addEventListener('click', () => {
+            const builder = document.getElementById('quote-builder');
+            builder.innerHTML = '';
+
+            const freshEntry = entryTemplate.cloneNode(true);
+            builder.appendChild(freshEntry);
+            updateForm(freshEntry);
+
+            document.getElementById('quote-list').innerHTML = '';
+            document.getElementById('total-price').textContent = 'Total: $0.00';
+            document.getElementById('amount').value = '0.00';
+        });
+
+        document.getElementById('quote-builder').addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-entry') || e.target.closest('.remove-entry')) {
+                const entry = e.target.closest('.quote-entry');
+                const allEntries = document.querySelectorAll('.quote-entry');
+
+                if (allEntries.length > 1) {
+                    entry.remove();
+                } else {
+                    const resetEntry = entryTemplate.cloneNode(true);
+                    entry.replaceWith(resetEntry);
+                    updateForm(resetEntry);
+                }
+            }
+        });
+
+        if (document.querySelectorAll('.quote-entry').length > 1) {
+            entry.remove();
+        }
+
+        function updateForm(entry) {
+            const typeSelect = entry.querySelector('.trash-type');
+            const qtySelect = entry.querySelector('.quantity');
+            const customInput = entry.querySelector('.custom-input');
+            const inquiryBtn = entry.querySelector('.submit-inquiry');
+
+            typeSelect.addEventListener('change', () => {
+                const selected = typeSelect.value;
+                qtySelect.innerHTML = '';
+                customInput.style.display = 'none';
+                inquiryBtn.style.display = 'none';
+
+                if (selected === 'other') {
+                    customInput.style.display = 'block';
+                    inquiryBtn.style.display = 'inline-block';
+                    return;
+                }
+
+                const config = pricing[selected];
+                const label = document.createElement('option');
+                label.textContent = `-- Select ${config.label} --`;
+                label.value = '';
+                qtySelect.appendChild(label);
+
+                config.options.forEach((opt, i) => {
+                    const option = document.createElement('option');
+                    option.textContent = opt;
+                    option.value = opt;
+                    qtySelect.appendChild(option);
+                });
+            });
+        }
+
+        function calculatePrice(type, qty) {
+            const config = pricing[type];
+            if (type === 'debris') {
+                const index = config.options.indexOf(qty);
+                return config.prices[index];
+            } else {
+                return config.pricePerUnit * parseInt(qty);
+            }
+        }
+
+        function updateQuote() {
+            const entries = document.querySelectorAll('.quote-entry');
+            const quoteList = document.getElementById('quote-list');
+            let total = 0;
+            quoteList.innerHTML = '';
+
+            entries.forEach(entry => {
+                const type = entry.querySelector('.trash-type').value;
+                const qty = entry.querySelector('.quantity').value;
+
+                if (!type || !qty || type === 'other') return;
+
+                const price = calculatePrice(type, qty);
+                total += price;
+
+                const label = pricing[type].label;
+                const listItem = document.createElement('li');
+                listItem.textContent = `${type.charAt(0).toUpperCase() + type.slice(1)} - ${qty} ${label} → $${price.toFixed(2)}`;
+                quoteList.appendChild(listItem);
+            });
+
+            document.getElementById('total-price').textContent = `Total: $${total.toFixed(2)}`;
+            document.getElementById('amount').value = total.toFixed(2);
+        }
+
+        document.querySelectorAll('.quote-entry').forEach(updateForm);
+
+        document.getElementById('add-another').addEventListener('click', () => {
+            const clone = entryTemplate.cloneNode(true);
+            document.getElementById('quote-builder').appendChild(clone);
+            updateForm(clone);
+
+        });
+
+        document.getElementById('update-quote').addEventListener('click', updateQuote);
+        const fields = {
+            'first-name': {
+                input: document.getElementById('first-name'),
+                error: document.getElementById('first-name-error'),
+                validate: value => value.trim() !== '',
+                message: 'First name is required.'
+            },
+            'last-name': {
+                input: document.getElementById('last-name'),
+                error: document.getElementById('last-name-error'),
+                validate: value => value.trim() !== '',
+                message: 'Last name is required.'
+            },
+            'address': {
+                input: document.getElementById('address'),
+                error: document.getElementById('address-error'),
+                validate: value => value.trim() !== '',
+                message: 'Service address is required.'
+            },
+            'phone': {
+                input: document.getElementById('phone'),
+                error: document.getElementById('phone-error'),
+                validate: value => /^\d{10}$/.test(value.replace(/\D/g, '')),
+                message: 'Enter a valid 10-digit phone number.'
+            },
+            'email': {
+                input: document.getElementById('email'),
+                error: document.getElementById('email-error'),
+                validate: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()),
+                message: 'Enter a valid email address.'
+            }
+        };
+
+        function validateCustomerInfo() {
+            let valid = true;
+
+            Object.values(fields).forEach(({ input, error, validate, message }) => {
+                const value = input.value;
+                const isValid = validate(value);
+
+                if (!isValid) {
+                    valid = false;
+                    if (formTouched) {
+                        input.classList.add('invalid');
+                        error.textContent = message;
+                    } else {
+                        input.classList.remove('invalid');
+                        error.textContent = '';
+                    }
+                } else {
+                    input.classList.remove('invalid');
+                    error.textContent = '';
+                }
+            });
+
+            document.getElementById('paypal-submit').disabled = !valid;
+            return valid;
+        }
+
+        // Bind real-time validation
+        Object.values(fields).forEach(({ input }) => {
+            input.addEventListener('input', validateCustomerInfo);
+        });
+
+        // Initial check
+        // validateCustomerInfo();
+        // document.getElementById('paypal-form').addEventListener('submit', (e) => {
+        //     const name = document.getElementById('customer-name').value.trim();
+        //     const email = document.getElementById('customer-email').value.trim();
+        //     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        //     if (!name || !email || !emailValid) {
+        //         e.preventDefault();
+        //         alert('Please enter a valid name and email before proceeding to PayPal.');
+        //         return;
+        //     }
+
+        //     // Optionally update item_name to include customer name
+        //     document.getElementById('item_name').value = `Trash Removal Quote for ${name}`;
+        // });
+        document.getElementById('paypal-form').addEventListener('submit', (e) => {
+            formTouched = true;
+            const isValid = validateCustomerInfo();
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please correct the highlighted fields before proceeding to PayPal.');
+            } else {
+                const firstName = fields['first-name'].input.value.trim();
+                const lastName = fields['last-name'].input.value.trim();
+                document.getElementById('item_name').value = `Trash Removal Quote for ${firstName} ${lastName}`;
+            }
+        });
+        let formTouched = false;
+
+        const phoneInput = document.getElementById('phone');
+
+        phoneInput.addEventListener('input', formatPhoneNumber);
+        phoneInput.addEventListener('blur', formatPhoneNumber);
+        
+        function formatPhoneNumber(e) {
+            const input = e.target;
+            const digits = input.value.replace(/\D/g, '').substring(0, 10); // max 10 digits
+
+            let formatted = '';
+            if (digits.length > 0) {
+                formatted += '(' + digits.substring(0, 3);
+            }
+            if (digits.length >= 4) {
+                formatted += ') ' + digits.substring(3, 6);
+            }
+            if (digits.length >= 7) {
+                formatted += '-' + digits.substring(6, 10);
+            }
+
+            input.value = formatted;
+        }
+    </script>
 
     <footer>
         <p>&copy; Carson Junk Removal LLC All rights reserved.
