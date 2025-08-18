@@ -298,7 +298,7 @@ a {
   #customer-info {
     padding: 0.5rem;
   }
-  #customer-info input {
+  #customer-info input, textarea{
     font-size: 0.9rem;
   }
   .remove-entry {
@@ -381,7 +381,7 @@ input[type="submit"]:hover {
   display: block;
 }
 
-#customer-info input {
+#customer-info input,textarea {
   width: 90%;
   padding: 0.6rem;
   margin-top: 0.5rem;
@@ -401,4 +401,15 @@ input.invalid {
 }
 select{
   font-family: Raleway, serif;
+}
+.custom-input {
+  height: 80px;
+  text-wrap: normal;
+  text-align: left;
+  align-items: flex-start;
+  display: block;
+}
+
+textarea {
+  resize: vertical;
 }
