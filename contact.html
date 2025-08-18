@@ -187,7 +187,7 @@ function initAutocomplete() {
 
 // Validate address using Google Address Validation API
 async function validateAddress(address) {
-  const apiKey = 'AIzaSyAVWD8vGbpqKPmEDvuNEzcTZI4gceZia-Q';
+  const apiKey = '';
   const endpoint = `https://addressvalidation.googleapis.com/v1:validateAddress?key=${apiKey}`;
 
   const payload = {
@@ -226,9 +226,7 @@ document.getElementById('address-form').addEventListener('submit', async (e) => 
       : '✅ Address is valid and confirmed!';
 });
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAVWD8vGbpqKPmEDvuNEzcTZI4gceZia-Q&libraries=places&callback=initAutocomplete" async defer></script>
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete" async defer></script> -->
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=-Q&libraries=places&callback=initAutocomplete" async defer></script>
     <footer>
         <p>&copy; Carson Junk Removal LLC All rights reserved.
             <span class="social-icons">
@@ -242,5 +240,6 @@ document.getElementById('address-form').addEventListener('submit', async (e) => 
         </p>
     </footer>
 </body>
+
 
 </html>
